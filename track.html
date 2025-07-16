@@ -50,7 +50,6 @@
 <script>
 let orderMap = {};
 
-// 👉 Replace the URL below with your Google Sheet CSV link
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vT_ePSuujZ6j0oS1LsmWFHHgjqO78lc8nTbdRXV7U5X5MKSxgIgxF6ovozhxANS8HfLCJR2OeKTMISj/pub?output=csv")
   .then(res => res.text())
   .then(csv => {
