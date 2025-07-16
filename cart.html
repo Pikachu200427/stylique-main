@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart - TheBachelorsStore</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f9f9f9; font-family: 'Segoe UI', sans-serif; }
+    .product-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+    .suggested img { height: 150px; object-fit: cover; width: 100%; border-radius: 10px; }
+    .card { box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .table td, .table th { vertical-align: middle; }
+  </style>
+</head>
+<body>
+
+<div class="container py-4">
+  <h2 class="mb-4">🛒 Your Cart</h2>
+  <div id="cartContainer"></div>
+
+  <div id="totalAmount" class="text-end mt-3 fw-bold fs-5"></div>
+
+  <hr class="my-5">
+
+  <h4 class="mb-3">🎁 Suggested for you</h4>
+  <div class="row suggested" id="suggestedProducts"></div>
+</div>
+
+<script>
+  const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+  function renderCart() {
+    const container = document.getElementById("cartContainer");
+    if (cartData.length === 0) {
+      container.innerHTML = "<p>Your cart is empty.</p>";
+      document.getElementById("totalAmount").innerText = '';
+      return;
+    }
+
+    let html = `<table class="table table-bordered bg-white">
+      <thead class="table-light">
+        <tr>
+          <th>Product</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th style="width:100px;">Qty</th>
+          <th>Subtotal</th>
+          <th>Action</th>
+        </tr>
+      </thead><tbody>`;
+
+    let total = 0;
+
+    cartData.forEach((item, index) => {
+      const qty = item.qty || 1;
+      const priceNum = parseFloat(item.price.replace(/[₹,]/g, ""));
+      const subtotal = qty * priceNum;
+      total += subtotal;
+
+      html += `
+        <tr>
+          <td><img class="product-img" src="${item.image}" alt="${item.name}"></td>
+          <td>${item.name}</td>
+          <td>${item.price}</td>
+          <td>
+            <input type="number" min="1" value="${qty}" class="form-control form-control-sm" onchange="updateQty(${index}, this.value)">
+          </td>
+          <td>₹${subtotal.toFixed(2)}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="removeItem(${index})">Delete</button>
+          </td>
+        </tr>`;
+    });
+
+    html += "</tbody></table>";
+    container.innerHTML = html;
+    document.getElementById("totalAmount").innerText = `Total: ₹${total.toFixed(2)}`;
+  }
+
+  function updateQty(index, value) {
+    cartData[index].qty = parseInt(value);
+    localStorage.setItem("cart", JSON.stringify(cartData));
+    renderCart();
+  }
+
+  function removeItem(index) {
+    if (confirm("Remove this item from cart?")) {
+      cartData.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cartData));
+      renderCart();
+    }
+  }
+
+  function loadSuggested() {
+    const shopSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR0jddA70DTb5Vmhlk91gPZ8WVlBnQIhRR7L-xh-EM-hkOMuqsK_f5qICz_IyNqnB13lQ69KEFr3Zhr/pub?output=csv";
+
+    fetch(shopSheetURL)
+      .then(res => res.text())
+      .then(csv => {
+        const rows = csv.trim().split("\n");
+        const products = [];
+
+        for (let i = 1; i < rows.length; i++) {
+          const cols = rows[i].split(",");
+          products.push({
+            name: cols[0]?.trim(),
+            price: cols[1]?.trim(),
+            category: cols[2]?.trim(),
+            image: cols[3]?.trim()
+          });
+        }
+
+        // Random 3 suggestions
+        const random = products.sort(() => 0.5 - Math.random()).slice(0, 3);
+        const container = document.getElementById("suggestedProducts");
+        random.forEach(p => {
+          const col = document.createElement("div");
+          col.className = "col-md-4 mb-3";
+          col.innerHTML = `
+            <div class="card">
+              <img src="${p.image}" class="card-img-top" alt="${p.name}">
+              <div class="card-body">
+                <h6 class="card-title">${p.name}</h6>
+                <p class="card-text fw-semibold">${p.price}</p>
+                <button class="btn btn-sm btn-dark w-100" onclick='addToCart(${JSON.stringify(p)})'>Add to Cart</button>
+              </div>
+            </div>
+          `;
+          container.appendChild(col);
+        });
+      });
+  }
+
+  function addToCart(product) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Added to cart!");
+    renderCart(); 
+  }
+
+  renderCart();
+  loadSuggested();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
