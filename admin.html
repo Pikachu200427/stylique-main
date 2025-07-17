@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Stylique</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background-color: #111;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .stat {
+      background: #fafafa;
+      padding: 1rem;
+      border-radius: 10px;
+      flex: 1;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .stat h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .stat span {
+      display: block;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #222;
+      color: white;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .stats {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Stylique Admin Panel</h1>
+  <nav>
+    <a href="index.html">Store</a>
+    <a href="#">Orders</a>
+    <a href="#">Products</a>
+    <a href="#">Users</a>
+    <a href="login.html">Logout</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>Overview</h2>
+    <div class="stats">
+      <div class="stat">
+        <h3>0</h3>
+        <span>Total Orders</span>
+      </div>
+      <div class="stat">
+        <h3>0</h3>
+        <span>Pending Orders</span>
+      </div>
+      <div class="stat">
+        <h3>0</h3>
+        <span>Products</span>
+      </div>
+      <div class="stat">
+        <h3>0</h3>
+        <span>Admins</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Quick Actions</h2>
+    <ul>
+      <li><a href="#">➕ Add New Product</a></li>
+      <li><a href="#">📦 View Orders</a></li>
+      <li><a href="#">👥 Manage Users</a></li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Stylique. Admin Panel.
+</footer>
+
+</body>
+</html>

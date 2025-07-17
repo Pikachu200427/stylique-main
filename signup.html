@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup - Stylique</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1c1c1c, #2c2c2c);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    .signup-box {
+      background-color: #121212;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .signup-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #f0f0f0;
+    }
+    .signup-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background-color: #2e2e2e;
+      color: white;
+      font-size: 16px;
+    }
+    .signup-box input::placeholder {
+      color: #ccc;
+    }
+    .signup-box button {
+      width: 100%;
+      padding: 12px;
+      background: #ff5757;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .signup-box button:hover {
+      background: #ff4141;
+    }
+    .signup-box .link {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .signup-box .link a {
+      color: #ffaaaa;
+      text-decoration: none;
+    }
+    .signup-box .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-box">
+    <h2>Create Your Account</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="signup()">Sign Up</button>
+    <div class="link">
+      Already have an account? <a href="login.html">Login</a>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2efY2U_oo-9p7qnr19j-vdHy3OnXyVDk",
+      authDomain: "tbs3-55f8c.firebaseapp.com",
+      projectId: "tbs3-55f8c",
+      storageBucket: "tbs3-55f8c.firebasestorage.app",
+      messagingSenderId: "31623113322",
+      appId: "1:31623113322:web:688078fd57160ca687b813",
+      measurementId: "G-E3FE7LYXCR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.signup = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Signup successful!");
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    };
+  </script>
+
+</body>
+</html>
