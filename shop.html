@@ -120,12 +120,12 @@
     renderProducts(filtered);
   }
 
-  function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(product);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Added to cart!");
-  }
+  function addToCart(name, price, image) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name, price, image, quantity: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
 
   function viewCart() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
